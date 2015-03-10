@@ -8,9 +8,9 @@ cmake .
 make libh2o
 cd ..
 
-#git clone git@github.com:davidmoreno/onion.git
-#cd onion
-#mkdir build
-#cd build
-#cmake ..
-#make
+git clone https://github.com/Mindwerks/plate-tectonics
+cd plate-tectonics
+mkdir build
+cd build
+cmake ..
+make

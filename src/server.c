@@ -11,6 +11,8 @@
 #include "h2o.h"
 #include "h2o/http1.h"
 #include "h2o/http2.h"
+#include "wrap_pt.h"
+#include "map_drawing.hpp"
 
 static h2o_globalconf_t config;
 static h2o_context_t ctx;
@@ -29,6 +31,25 @@ static int chunked_test(h2o_handler_t *self, h2o_req_t *req)
 
     if (!h2o_memis(req->method.base, req->method.len, H2O_STRLIT("GET")))
         return -1;
+
+    long seed = 1;
+    size_t width = 128;
+    size_t height = 128;
+    float sea_level = 0.65;
+    size_t erosion_period = 60;
+    float folding_ratio = 0.02;
+    float aggr_overlap_abs = 1000000;
+    float aggr_overlap_rel = 0.33;
+    size_t cycle_count = 2; 
+    size_t num_plates = 10;
+
+    printf("Creating map with seed %li\n", seed);
+    void* p = platec_api_create(seed, width, height, sea_level, 
+        erosion_period, folding_ratio,
+        aggr_overlap_abs, aggr_overlap_rel,
+        cycle_count, num_plates);
+    float* heightmap = platec_api_get_heightmap(p);
+    int res = writeImage("tmp.png", width, height, heightmap, "A-super-cool-map");
 
     h2o_iovec_t body = h2o_strdup(&req->pool, "hello world\n", SIZE_MAX);
     req->res.status = 200;
