@@ -24,6 +24,10 @@ http://localhost:7890/map/
 
 Be patient, it could be slow
 
+You should get something like:
+
+![](https://raw.githubusercontent.com/ftomassetti/platetectonics_httpserver/master/screenshots/screenshot.png)
+
 ## Dependencies
 
 * libuv
