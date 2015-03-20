@@ -45,26 +45,10 @@ void platec_api_destroy(void* litho)
 		}
 }
 
-const size_t* platec_api_get_agemap(size_t id)
-{
-	lithosphere* litho = platec_api_get_lithosphere(id);
-	if (!litho)
-		return NULL;
-
-	return litho->getAgemap();
-}
-
 float* platec_api_get_heightmap(void *pointer)
 {
 	lithosphere* litho = (lithosphere*)pointer;
 	float *res = litho->getTopography();
-	return res;
-}
-
-size_t* platec_api_get_platesmap(void *pointer)
-{
-	lithosphere* litho = (lithosphere*)pointer;
-	size_t *res = litho->getPlatesMap();
 	return res;
 }
 

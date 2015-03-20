@@ -42,9 +42,11 @@ static int chunked_test(h2o_handler_t *self, h2o_req_t *req)
     if (!h2o_memis(req->method.base, req->method.len, H2O_STRLIT("GET")))
         return -1;
 
-    long seed = 1;
-    size_t width = 512;
-    size_t height = 512;
+    srand(time(NULL));    
+
+    long seed = rand();
+    size_t width = 250;
+    size_t height = 250;
     float sea_level = 0.65;
     size_t erosion_period = 60;
     float folding_ratio = 0.02;
@@ -61,21 +63,14 @@ static int chunked_test(h2o_handler_t *self, h2o_req_t *req)
 
     while (!platec_api_is_finished(p)){
         count++;
-        if (count%50==0) printf(" ..step %i\n", count);
+        if (count%50==0) printf("  ..step %i\n", count);
         platec_api_step(p);    
     }
-    float* heightmap = platec_api_get_heightmap(p);
-    int res = writeImage("tmp.png", width, height, heightmap, "A-super-cool-map");
-
+    printf("Done.\n");
+    float* heightmap = platec_api_get_heightmap(p);    
+    int res = writeImageColors("tmp.png", width, height, heightmap, "A-super-cool-map");
 
     int res2 = h2o_file_send(req, 200, "OK", "tmp.png", dupref("image/png"), 0);
-
-    /*h2o_iovec_t body = h2o_strdup(&req->pool, "hello world\n", SIZE_MAX);
-    req->res.status = 200;
-    req->res.reason = "OK";
-    h2o_add_header(&req->pool, &req->res.headers, H2O_TOKEN_CONTENT_TYPE, H2O_STRLIT("text/plain"));
-    h2o_start_response(req, &generator);
-    h2o_send(req, &body, 1, 1);*/
 
     return 0;
 }

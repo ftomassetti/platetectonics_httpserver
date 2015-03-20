@@ -1,3 +1,4 @@
+rm -Rf deps
 mkdir deps
 
 cd deps
