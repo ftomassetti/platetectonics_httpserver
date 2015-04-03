@@ -2,6 +2,11 @@
 
 A server to generate maps using plate-tectonics simulation. Written in C
 
+## Requirements
+
+* automake
+* libtool
+
 ## Build
 
 ```
